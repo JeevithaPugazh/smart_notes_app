@@ -1,16 +1,17 @@
 # 📝 Smart Notes AI: Handwriting-to-Textbook Transformer
 
-**Smart Notes AI** is a full-stack application that transforms messy, handwritten lecture notes into structured, professional textbook-style documents. Using **Multimodal AI (Gemini 2.5 Flash)** and a **FastAPI/React** architecture, it doesn't just perform OCR; it interprets concepts, fixes technical terminology, and formats output into clean Markdown.
+**Smart Notes AI** is a full-stack application that transforms messy, handwritten lecture notes into structured, professional textbook-style documents. Using an **open-weight multimodal model** through **LangChain + Groq** and a **FastAPI/React** architecture, it does more than OCR: it interprets concepts, fixes technical terminology, and formats output into clean Markdown.
 
 ---
 
 ## 🚀 Key Features
 
-* **Multimodal Vision:** Leverages Google's Gemini API to "read" and understand handwriting context.
+* **Open-Source AI Pipeline:** Uses LangChain orchestration with Groq-hosted open-weight models.
+* **Multimodal Vision:** Reads and interprets handwritten notes directly from uploaded images.
 * **Academic Enhancement:** Automatically corrects shorthand (e.g., "Nodes sv" becomes "Node.js Server").
 * **Modern UI:** Features a glassmorphism design with a "Magic Wand" loading state for enhanced UX.
 * **Live Preview:** Real-time Markdown rendering for instant review.
-* **Textbook Formatting:** Outputs structured headers, bold key terms, and bulleted lists.
+* **Textbook Formatting:** Outputs clean Markdown with structured headers, bold key terms, and bullet lists.
 
 ---
 
@@ -23,7 +24,8 @@
 
 ### **Backend**
 * **FastAPI (Python):** High-performance asynchronous API framework.
-* **Google Generative AI:** Gemini 2.5 Flash for vision and text generation.
+* **LangChain + ChatGroq:** Multimodal prompting and model invocation.
+* **Open-weights Model:** `meta-llama/llama-4-scout-17b-16e-instruct` (or active Groq vision equivalent).
 * **Uvicorn:** ASGI server for production-grade hosting.
 
 ---
@@ -44,13 +46,14 @@
 ## ⚙️ Installation & Setup
 
 ### **1. Clone the Repository**
-* `git clone https://github.com/JeevithaPugazh/smart_notes.git`
+* `git clone https://github.com/JeevithaPugazh/smart_notes_app.git`
 * `cd smart_notes`
 
 ### **2. Backend Setup**
 * Navigate to the backend: `cd backend`
 * Create a `.env` file and add your API Key:
-    * `GEMINI_API_KEY=your_google_api_key_here`
+    * `GROQ_API_KEY=your_groq_api_key_here`
+    * `GROQ_MODEL=meta-llama/llama-4-scout-17b-16e-instruct`
     * `PORT=8000`
 * Install dependencies: `pip install -r requirements.txt`
 * Run the server: `python -m uvicorn main:app --reload`
@@ -67,9 +70,18 @@
 The project uses a **Zero-Shot Multimodal Inference** approach:
 
 1. **Image Encoding:** The handwritten image is converted to a base64 string for API transmission.
-2. **Prompt Engineering:** A "System Instruction" tells the AI to act as a *Technical Editor*.
-3. **Contextual Correction:** Instead of simple character recognition, the model identifies technical patterns (e.g., recognizing "V8" in a coding context) to fix spelling errors.
-4. **Markdown Synthesis:** The model returns structured Markdown, which the frontend renders into a readable textbook format.
+2. **Prompt Engineering:** The assistant prompt instructs the model to act as an *Academic Technical Editor*.
+3. **Multimodal Input:** LangChain `HumanMessage` sends both prompt text and image data URL in one request.
+4. **Contextual Correction:** Instead of raw OCR only, the model uses context to improve technical terms and readability.
+5. **Markdown Synthesis:** The model returns clean Markdown, which is rendered in the frontend and saved to `backend/ocr_result.md`.
+
+---
+
+## ✅ Open-Source Migration Status
+
+* Removed `google-generativeai` / Gemini usage from the backend pipeline.
+* Replaced old Gemini functions with LangChain + `ChatGroq` image-to-markdown flow.
+* Export routes (`/export/pdf`, `/export/docx`) now run through the same open-source AI flow.
 
 ---
 
