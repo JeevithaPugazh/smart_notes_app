@@ -4,6 +4,14 @@
 
 ---
 
+## 🔗 Project Deployment
+
+| Service | Live Link |
+| :--- | :--- |
+| **Frontend UI** | [https://smart-notes-app-xzas.onrender.com/](https://smart-notes-app-xzas.onrender.com/) |
+| **Backend API** | [https://smart-notes-backend-mue6.onrender.com/docs](https://smart-notes-backend-mue6.onrender.com/docs) |
+---
+
 ## 🚀 Key Features
 
 * **Open-Source AI Pipeline:** Uses LangChain orchestration with Groq-hosted open-weight models.
