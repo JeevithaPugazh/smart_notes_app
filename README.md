@@ -95,7 +95,7 @@ The project uses a **Zero-Shot Multimodal Inference** approach:
 
 ## 📸 App Preview
 
-![Smart Notes Demo](images/demo_screenshot.png.png)
+![Smart Notes Demo](images/demo_screenshot.png)
 
 ### 🏗️ How it Works
 ![Architecture Diagram](images/Architecture.png)
