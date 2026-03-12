@@ -3,5 +3,9 @@ __pycache__/
 .env
 backend/.env
 uploads/
+backend/uploads/
+backend/exports/
 dist/
 build/
+frontend/node_modules/
+frontend/dist/
