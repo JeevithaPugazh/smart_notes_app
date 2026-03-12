@@ -176,7 +176,7 @@ export default function App() { // Main React component export.
               <UploadIcon /> {/* Upload icon. */}
             </span>
             <span className="upload-copy">Drop your notes here or click to browse: JPG, PNG, PDF, TXT</span> {/* Supported file type guidance. */}
-            <input type="file" accept="image/*,.pdf,.txt" onChange={onFileChange} className="hidden-input" /> {/* Hidden native file input that triggers preview workflow. */}
+            <input type="file" accept="image/*,.pdf,.txt" onChange={onFileChange} className="hidden-input" aria-label="Upload notes file" /> {/* Hidden native file input that triggers preview workflow and announces action to screen readers. */}
           </label>
 
           {previewName && ( // Show selected file badge only when a file is chosen.
@@ -186,8 +186,8 @@ export default function App() { // Main React component export.
             </div>
           )} {/* End selected-file conditional block. */}
 
-          <button type="submit" className="convert-btn" disabled={btnDisabled}> {/* Primary action button for conversion workflow. */}
-            {loading ? "Converting..." : "Convert"} {/* Dynamic button label based on async state. */}
+          <button type="submit" className="convert-btn" disabled={btnDisabled} aria-label="Process uploaded notes"> {/* Primary action button for conversion workflow with accessible label. */}
+            {loading ? "Processing..." : "Process"} {/* Dynamic button label based on async state. */}
           </button>
         </form>
 
@@ -220,10 +220,10 @@ export default function App() { // Main React component export.
               <span className="panel-title">AI Textbook</span> {/* Right panel title label. */}
               <div className="download-actions"> {/* Download button group. */}
                 {pdfUrl && ( // Show PDF button only when URL exists.
-                  <a href={pdfUrl} download={pdfName} className="download-btn download-pdf">Download PDF</a> // PDF file download trigger.
+                  <a href={pdfUrl} download={pdfName} className="download-btn download-pdf" aria-label="Download generated PDF">Download PDF</a> // PDF file download trigger.
                 )}
                 {docxUrl && ( // Show DOCX button only when URL exists.
-                  <a href={docxUrl} download={docxName} className="download-btn download-docx">Download Word</a> // DOCX file download trigger.
+                  <a href={docxUrl} download={docxName} className="download-btn download-docx" aria-label="Download generated Word document">Download Word</a> // DOCX file download trigger.
                 )}
               </div>
             </div>
@@ -249,6 +249,17 @@ export default function App() { // Main React component export.
           <span>{hasDownloads ? "Downloads ready" : "Convert to unlock exports"}</span> {/* Dynamic status message based on export readiness. */}
         </footer>
       </div>
+
+      {hasDownloads && ( // Render mobile-only fixed dock so downloads stay visible while scrolling.
+        <nav className="mobile-download-dock" aria-label="Download generated files"> {/* Fixed bottom action bar for mobile exports. */}
+          {pdfUrl && ( // Show PDF action in mobile dock when available.
+            <a href={pdfUrl} download={pdfName} className="download-btn download-pdf" aria-label="Download generated PDF">PDF</a> // Compact PDF action chip.
+          )}
+          {docxUrl && ( // Show DOCX action in mobile dock when available.
+            <a href={docxUrl} download={docxName} className="download-btn download-docx" aria-label="Download generated Word document">Word</a> // Compact DOCX action chip.
+          )}
+        </nav>
+      )}
     </div>
   ); // End component JSX tree.
 } // End App component.

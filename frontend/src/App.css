@@ -1,439 +1,515 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"); /* Import Inter for clean professional UI typography. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"); /* Import Inter for clean, scalable UI typography. */
 
-:root { /* Define global design tokens for the full dashboard theme. */
-  --bg-a: #f3f0ff; /* Primary page background: soft lavender-grey for eye comfort. */
-  --bg-b: #f7f4ff; /* Secondary gradient stop: brighter lavender highlight. */
-  --bg-c: #ece5ff; /* Tertiary gradient stop: subtle depth tint in outer background. */
-  --glass: rgba(255, 255, 255, 0.7); /* Main glass panel fill with translucent white-purple tint. */
-  --glass-strong: rgba(255, 255, 255, 0.7); /* Inner panel glass fill matching dashboard body. */
-  --line: #dcd0ff; /* Thin border color for glass edges and separators. */
-  --ink-strong: #241a46; /* High-contrast heading/body text color. */
-  --ink-mid: #5f5684; /* Secondary text color for helper labels and metadata. */
-  --accent: #7c3aed; /* Primary action color for Convert button and key controls. */
-  --accent-2: #6d28d9; /* Hover/active purple state for interactive emphasis. */
-  --danger-bg: rgba(255, 223, 223, 0.8); /* Soft error banner background for validation/runtime issues. */
-  --danger-line: rgba(250, 130, 130, 0.45); /* Border color for error banner framing. */
-} /* End global token set. */
+:root { /* Global theme tokens for light purple dashboard. */
+  --bg-a: #f3f0ff; /* Page background base: soft lavender-grey. */
+  --bg-b: #f7f4ff; /* Background highlight gradient stop. */
+  --bg-c: #ece5ff; /* Background depth tint. */
+  --glass: rgba(255, 255, 255, 0.7); /* Dashboard-level glass fill. */
+  --glass-strong: rgba(255, 255, 255, 0.7); /* Panel-level glass fill. */
+  --line: #dcd0ff; /* Primary panel border/separator color. */
+  --ink-strong: #241a46; /* High-contrast primary text color (WCAG friendly). */
+  --ink-mid: #4e4475; /* Secondary text color with >=4.5:1 contrast on light backgrounds. */
+  --accent: #7c3aed; /* Primary action button color (Process button). */
+  --accent-2: #6d28d9; /* Hover/active action color. */
+  --danger-bg: rgba(255, 223, 223, 0.85); /* Error banner background. */
+  --danger-line: rgba(250, 130, 130, 0.55); /* Error banner border. */
+}
 
-* { /* Apply universal element rules. */
-  box-sizing: border-box; /* Keep sizing predictable for all layout calculations. */
-} /* End universal selector. */
+* { /* Global box model consistency. */
+  box-sizing: border-box; /* Include borders/padding in width calculations. */
+}
 
 html,
 body,
-#root { /* Lock root containers for fixed-height dashboard UX. */
+#root { /* Desktop root containers. */
   margin: 0; /* Remove browser default margins. */
-  height: 100%; /* Ensure root containers span full viewport height. */
-  overflow: hidden; /* Prevent page-level scroll; scrolling is handled inside panels only. */
-} /* End root layout lock. */
+  height: 100%; /* Ensure fixed dashboard can consume full viewport. */
+  overflow: hidden; /* Keep page scroll disabled on desktop/tablet dashboard mode. */
+}
 
-body { /* Base document styling. */
-  font-family: "Inter", "Plus Jakarta Sans", "Segoe UI", sans-serif; /* Use clean sans-serif stack for professional look. */
-  color: var(--ink-strong); /* Apply primary text color token. */
-  background: /* Compose layered lavender gradient background. */
-    radial-gradient(1000px 520px at 15% 0%, #ebe4ff 0%, transparent 58%), /* Top-left soft lavender glow. */
-    radial-gradient(900px 520px at 88% 8%, #e8e0ff 0%, transparent 58%), /* Top-right balancing glow. */
-    linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%); /* Global gentle diagonal gradient. */
-} /* End body styling. */
+body { /* Base document visuals. */
+  font-family: "Inter", "Plus Jakarta Sans", "Segoe UI", sans-serif; /* Clean sans-serif stack with accessibility-friendly spacing. */
+  color: var(--ink-strong); /* Primary text color token usage. */
+  background:
+    radial-gradient(62.5rem 32.5rem at 15% 0%, #ebe4ff 0%, transparent 58%), /* Top-left lavender glow. */
+    radial-gradient(56.25rem 32.5rem at 88% 8%, #e8e0ff 0%, transparent 58%), /* Top-right balancing glow. */
+    linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%); /* Soft page background gradient. */
+}
 
-.app-shell { /* Outer app shell filling viewport. */
-  height: 100vh; /* Fixed full-screen app height per dashboard requirement. */
-  overflow: hidden; /* Keep outer shell static with no scrollbar. */
-  padding: 14px; /* Add outer breathing space around glass dashboard card. */
-} /* End app shell. */
+.app-shell { /* Outer viewport wrapper. */
+  height: 100vh; /* Desktop fixed-height app shell. */
+  overflow: hidden; /* Prevent outer scroll in desktop dashboard mode. */
+  padding: 0.875rem; /* Space around main glass panel. */
+}
 
-.dashboard-glass { /* Main container card holding entire app chrome. */
-  height: calc(100vh - 28px); /* Subtract shell padding so card fits viewport exactly. */
-  max-width: 1400px; /* Cap width for readability on large screens. */
-  margin: 0 auto; /* Center dashboard horizontally. */
-  border-radius: 24px; /* Rounded corners for modern glassmorphism aesthetic. */
-  background: var(--glass); /* Apply translucent white-lavender glass fill. */
-  backdrop-filter: blur(15px); /* Frosted-glass blur effect behind dashboard. */
-  -webkit-backdrop-filter: blur(15px); /* Safari-compatible blur property. */
-  border: 1px solid var(--line); /* Thin lavender border around main container. */
-  box-shadow: 0 16px 50px rgba(87, 61, 161, 0.12); /* Subtle elevation shadow for depth. */
-  display: flex; /* Use vertical flex layout for header/toolbar/content/footer stacking. */
-  flex-direction: column; /* Stack children top-to-bottom. */
-  overflow: hidden; /* Keep internal frame fixed and route scroll to inner content zones. */
-} /* End dashboard card. */
+.dashboard-glass { /* Main dashboard container. */
+  height: calc(100vh - 1.75rem); /* Fill viewport minus app-shell padding. */
+  max-width: 87.5rem; /* Readability cap on very wide screens. */
+  margin: 0 auto; /* Horizontal centering. */
+  border-radius: 1.5rem; /* Rounded glass edge. */
+  background: var(--glass); /* Translucent white panel base. */
+  border: 0.0625rem solid var(--line); /* Thin lavender border. */
+  backdrop-filter: blur(0.9375rem); /* Frosted glass blur effect. */
+  -webkit-backdrop-filter: blur(0.9375rem); /* Safari compatibility. */
+  box-shadow: 0 1rem 3.125rem rgba(87, 61, 161, 0.12); /* Subtle depth shadow. */
+  display: flex; /* Vertical app sections layout. */
+  flex-direction: column; /* Header, toolbar, content, footer order. */
+  overflow: hidden; /* Keep dashboard frame fixed. */
+}
 
-.dash-header { /* Top navigation/branding bar. */
-  padding: 14px 24px; /* Horizontal/vertical spacing for brand and status pill. */
-  min-height: 78px; /* Maintain stable header height across states. */
-  border-bottom: 1px solid var(--line); /* Visual divider between header and toolbar. */
-  flex: 0 0 auto; /* Prevent header from shrinking in constrained heights. */
-  display: flex; /* Horizontal layout for logo block and status pill. */
-  align-items: center; /* Vertical alignment of header items. */
-  justify-content: space-between; /* Push brand left and metadata pill right. */
-  gap: 12px; /* Space between header groups. */
-} /* End header bar. */
+.dash-header { /* Top navigation/header row. */
+  padding: 0.875rem 1.5rem; /* Header breathing room. */
+  min-height: 4.875rem; /* Stable navigation height. */
+  border-bottom: 0.0625rem solid var(--line); /* Header divider line. */
+  display: flex; /* Row alignment for brand + status pill. */
+  align-items: center; /* Vertically center header content. */
+  justify-content: space-between; /* Push status pill right. */
+  gap: 0.75rem; /* Space between header groups. */
+  flex: 0 0 auto; /* Keep header fixed outside panel scrolling. */
+}
 
-.brand-wrap { /* Brand logo + title wrapper. */
-  display: flex; /* Align logo and text in one row. */
-  align-items: center; /* Vertically center logo with title text. */
-  gap: 10px; /* Controlled spacing between icon and text. */
-} /* End brand wrapper. */
+.brand-wrap { /* Logo and title block. */
+  display: flex; /* Inline arrangement for logo + text. */
+  align-items: center; /* Vertical centering. */
+  gap: 0.625rem; /* Brand spacing. */
+}
 
-.brand-logo { /* Sparkle logo icon styling. */
-  width: 26px; /* Fixed logo width for consistent branding. */
-  height: 26px; /* Fixed logo height to preserve aspect ratio. */
-  filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.35)); /* Glow effect tied to purple accent. */
-  animation: twinkleGlow 3.2s ease-in-out infinite; /* Gentle breathing/twinkle animation loop. */
-} /* End logo style. */
+.brand-logo { /* Sparkle logo style. */
+  width: 1.625rem; /* Logo width. */
+  height: 1.625rem; /* Logo height. */
+  filter: drop-shadow(0 0 0.5rem rgba(124, 58, 237, 0.35)); /* Purple glow around star. */
+  animation: twinkleGlow 3.2s ease-in-out infinite; /* Gentle breathing/twinkle loop. */
+}
 
-.brand-text h1 { /* Main product title in top-left nav. */
-  margin: 0; /* Remove default heading margin to keep header compact. */
-  font-size: clamp(1.1rem, 2vw, 1.5rem); /* Responsive title size for desktop and laptop widths. */
-  letter-spacing: 0.005em; /* Slight tracking polish for premium feel. */
-  font-weight: 800; /* Bold title weight for strong brand identity. */
-} /* End title style. */
+.brand-text h1 { /* Smart Notes title style. */
+  margin: 0; /* Remove heading margin. */
+  font-size: clamp(1.125rem, 2vw, 1.5rem); /* Responsive title scaling. */
+  letter-spacing: 0.005em; /* Light tracking. */
+  font-weight: 800; /* Strong headline emphasis. */
+  color: var(--ink-strong); /* Ensure high contrast on light panel. */
+}
 
-.brand-text p { /* Subtitle under Smart Notes title. */
-  margin: 2px 0 0; /* Tight spacing beneath title. */
-  color: var(--ink-mid); /* Secondary text color for subtle metadata. */
-  font-size: 0.78rem; /* Compact supporting text size. */
-  text-transform: uppercase; /* Present subtitle like product tagline. */
-  letter-spacing: 0.1em; /* Increase readability for uppercase microcopy. */
-} /* End subtitle style. */
+.brand-text p { /* Subtitle text under title. */
+  margin: 0.125rem 0 0; /* Tight vertical rhythm. */
+  font-size: 0.8125rem; /* Accessible secondary label size. */
+  color: var(--ink-mid); /* Secondary text tone. */
+  text-transform: uppercase; /* Dashboard metadata style. */
+  letter-spacing: 0.1em; /* Improve uppercase legibility. */
+}
 
-.nav-pill { /* Right-side metadata/status badge in header. */
-  border: 1px solid var(--line); /* Match panel border token for visual consistency. */
-  background: rgba(255, 255, 255, 0.65); /* Slightly opaque chip background. */
-  border-radius: 999px; /* Fully rounded pill geometry. */
-  padding: 8px 12px; /* Internal chip spacing. */
-  font-size: 0.72rem; /* Compact badge text. */
-  letter-spacing: 0.08em; /* Stylized uppercase spacing. */
-  text-transform: uppercase; /* Standard metadata badge casing. */
-  color: var(--ink-mid); /* Secondary text color. */
-} /* End nav pill style. */
+.nav-pill { /* Header metadata badge (desktop/tablet). */
+  border: 0.0625rem solid var(--line); /* Match panel border language. */
+  background: rgba(255, 255, 255, 0.68); /* Slightly opaque pill background. */
+  border-radius: 999rem; /* Fully rounded pill shape. */
+  padding: 0.5rem 0.75rem; /* Pill spacing. */
+  font-size: 0.75rem; /* Compact metadata size. */
+  letter-spacing: 0.08em; /* Metadata tracking. */
+  text-transform: uppercase; /* Metadata casing style. */
+  color: var(--ink-mid); /* Accessible secondary text color. */
+}
 
-.dash-toolbar { /* Upload + file badge + convert action row. */
-  display: grid; /* Grid layout for adaptive toolbar columns. */
-  grid-template-columns: minmax(0, 1fr) auto auto; /* Wide upload zone with two compact controls. */
-  gap: 12px; /* Space between toolbar items. */
-  align-items: center; /* Vertical alignment of controls. */
-  padding: 14px 24px; /* Keep toolbar aligned with header content edges. */
-  flex: 0 0 auto; /* Toolbar remains fixed-height above scrollable panels. */
-} /* End toolbar layout. */
+.dash-toolbar { /* Upload and actions row. */
+  display: grid; /* Grid for upload + chip + button. */
+  grid-template-columns: minmax(0, 1fr) auto auto; /* Main upload plus two controls. */
+  align-items: center; /* Vertical alignment. */
+  gap: 0.75rem; /* Inter-control spacing. */
+  padding: 0.875rem 1.5rem; /* Align with header edges. */
+  flex: 0 0 auto; /* Keep toolbar fixed outside content scroll. */
+}
 
-.upload-zone { /* Styled drop/click upload control. */
-  min-height: 52px; /* Ensure touch-friendly minimum control height. */
-  border: 1px dashed #c6b4ff; /* Dashed border to indicate drop target. */
-  border-radius: 14px; /* Rounded edges for modern visual style. */
-  padding: 10px 14px; /* Internal spacing for icon and text. */
-  display: flex; /* Horizontal layout for icon + copy. */
-  gap: 12px; /* Space between icon and guidance text. */
-  align-items: center; /* Vertically center content in drop zone. */
-  background: rgba(255, 255, 255, 0.7); /* White-lavender translucent fill. */
-  cursor: pointer; /* Make control obviously interactive. */
+.upload-zone { /* File input visual surface. */
+  min-height: 3.25rem; /* Comfortable touch area. */
+  border: 0.0625rem dashed #c6b4ff; /* Dashed upload affordance. */
+  border-radius: 0.875rem; /* Soft corners. */
+  padding: 0.625rem 0.875rem; /* Internal spacing. */
+  display: flex; /* Icon and text row. */
+  align-items: center; /* Vertical centering. */
+  gap: 0.75rem; /* Icon/text spacing. */
+  background: rgba(255, 255, 255, 0.7); /* Light translucent fill. */
+  cursor: pointer; /* Label is click-target for hidden input. */
   transition: border-color 0.2s ease, background 0.2s ease; /* Smooth hover feedback. */
-} /* End upload zone style. */
+}
 
-.upload-zone:hover { /* Hover state for upload area. */
-  border-color: #a78bfa; /* Intensify lavender border on hover. */
-  background: rgba(255, 255, 255, 0.85); /* Increase panel clarity to confirm hover state. */
-} /* End upload hover state. */
+.upload-zone:hover { /* Upload zone hover state. */
+  border-color: #a78bfa; /* Stronger lavender border. */
+  background: rgba(255, 255, 255, 0.85); /* Slightly brighter fill. */
+}
 
-.upload-icon-wrap { /* Circular icon background inside upload zone. */
-  width: 34px; /* Fixed icon container width. */
-  height: 34px; /* Fixed icon container height. */
-  border-radius: 50%; /* Circular shape for icon badge. */
-  display: inline-flex; /* Keep icon centered in inline context. */
-  align-items: center; /* Vertical icon centering. */
-  justify-content: center; /* Horizontal icon centering. */
-  background: linear-gradient(120deg, rgba(124, 58, 237, 0.18), rgba(167, 139, 250, 0.2)); /* Soft purple gradient halo behind icon. */
-} /* End upload icon wrapper. */
+.upload-icon-wrap { /* Circular icon holder in upload area. */
+  width: 2.125rem; /* Circle width. */
+  height: 2.125rem; /* Circle height. */
+  border-radius: 50%; /* Circle shape. */
+  display: inline-flex; /* Center icon with flex. */
+  align-items: center; /* Vertical center. */
+  justify-content: center; /* Horizontal center. */
+  background: linear-gradient(120deg, rgba(124, 58, 237, 0.18), rgba(167, 139, 250, 0.2)); /* Purple halo. */
+}
 
-.upload-copy { /* Instruction text in upload control. */
-  color: var(--ink-mid); /* Secondary text tone to avoid visual overload. */
-  font-size: 0.92rem; /* Readable instructional size. */
-} /* End upload copy style. */
+.upload-copy { /* Upload hint text. */
+  font-size: 0.9375rem; /* Scalable text size for readability. */
+  color: var(--ink-mid); /* Secondary text color. */
+}
 
-.hidden-input { /* Native file input hidden behind styled label control. */
-  display: none; /* Prevent browser default file input from showing. */
-} /* End hidden input style. */
+.hidden-input { /* Visually hidden native input element. */
+  display: none; /* Keep only custom upload zone visible. */
+}
 
-.selected-file { /* Badge showing currently selected filename. */
-  display: inline-flex; /* Icon + filename in one horizontal line. */
-  align-items: center; /* Vertically align icon/text. */
-  gap: 8px; /* Space between icon and text. */
-  max-width: 260px; /* Prevent filename badge from crowding toolbar. */
-  white-space: nowrap; /* Keep filename on single line. */
-  overflow: hidden; /* Hide overflow for long names. */
-  text-overflow: ellipsis; /* Show ellipsis for truncated filenames. */
-  padding: 10px 12px; /* Internal chip spacing. */
-  border-radius: 12px; /* Soft rounded corners. */
-  border: 1px solid #d8c9ff; /* Lavender border consistent with theme. */
-  background: rgba(255, 255, 255, 0.75); /* Semi-transparent white chip fill. */
-  font-size: 0.85rem; /* Compact metadata text size. */
-} /* End selected-file badge style. */
+.selected-file { /* Filename chip after selection. */
+  display: inline-flex; /* Icon + text row. */
+  align-items: center; /* Vertical center. */
+  gap: 0.5rem; /* Chip spacing. */
+  max-width: 16.25rem; /* Prevent overflow in toolbar. */
+  white-space: nowrap; /* Keep in one line. */
+  overflow: hidden; /* Clip long names. */
+  text-overflow: ellipsis; /* Show ellipsis for long filenames. */
+  padding: 0.625rem 0.75rem; /* Chip internal spacing. */
+  border-radius: 0.75rem; /* Rounded chip corners. */
+  border: 0.0625rem solid #d8c9ff; /* Lavender chip border. */
+  background: rgba(255, 255, 255, 0.75); /* Glassy chip background. */
+  font-size: 0.875rem; /* Scalable metadata text. */
+  min-height: 2.75rem; /* Meet WCAG target guidance. */
+}
 
-.convert-btn { /* Primary CTA for conversion workflow. */
-  border: 0; /* Remove default browser border. */
-  border-radius: 999px; /* Pill shape for modern action button style. */
-  min-height: 44px; /* Touch-friendly minimum hit target. */
-  padding: 0 18px; /* Horizontal breathing room for button label. */
-  font-weight: 700; /* Strong emphasis for primary action. */
-  color: #fff; /* White text for high contrast on purple background. */
-  background: var(--accent); /* Main purple action color token (#7c3aed). */
-  cursor: pointer; /* Pointer cursor to indicate clickability. */
-  transition: transform 0.18s ease, opacity 0.18s ease, background-color 0.2s ease; /* Smooth interaction transitions. */
-} /* End convert button style. */
+.convert-btn { /* Primary Process action. */
+  border: 0; /* Remove default button border. */
+  border-radius: 999rem; /* Pill shape. */
+  min-height: 2.75rem; /* 44px minimum touch target. */
+  padding: 0 1.125rem; /* Label spacing. */
+  font-size: 0.9375rem; /* Scalable CTA text. */
+  font-weight: 700; /* CTA emphasis. */
+  color: #ffffff; /* White text for high contrast on accent. */
+  background: var(--accent); /* Primary purple action color. */
+  cursor: pointer; /* Interaction cue. */
+  transition: transform 0.18s ease, opacity 0.18s ease, background-color 0.2s ease; /* Interaction transitions. */
+}
 
-.convert-btn:hover:not(:disabled) { /* Active hover state when button is usable. */
-  transform: translateY(-1px); /* Subtle lift effect for tactile feedback. */
-  background: var(--accent-2); /* Darker purple hover color for interaction emphasis. */
-} /* End convert hover state. */
+.convert-btn:hover:not(:disabled) { /* Hover interaction for enabled state. */
+  transform: translateY(-0.0625rem); /* Subtle lift. */
+  background: var(--accent-2); /* Darker purple hover state. */
+}
 
-.convert-btn:disabled { /* Disabled state when no file or during in-flight request. */
-  opacity: 0.5; /* Dim button to indicate inactive state. */
-  cursor: not-allowed; /* Prevent pointer interaction cue. */
-} /* End disabled button style. */
+.convert-btn:disabled { /* Disabled state when loading/no file. */
+  opacity: 0.55; /* Visual disable cue. */
+  cursor: not-allowed; /* Block click indicator. */
+}
 
-.error-banner { /* Error message container for API/validation failures. */
-  margin: 0 24px; /* Align banner with panel and toolbar content edges. */
-  padding: 10px 12px; /* Internal spacing for readability. */
-  border-radius: 10px; /* Rounded alert container. */
-  background: var(--danger-bg); /* Light red background token for warning context. */
-  border: 1px solid var(--danger-line); /* Subtle red border for contrast. */
-  color: #5a1414; /* Dark red text for legibility on soft alert background. */
-  font-size: 0.88rem; /* Compact but readable error text size. */
-  flex: 0 0 auto; /* Keep banner height fixed outside scrolling zones. */
-} /* End error banner style. */
+.error-banner { /* Error message container. */
+  margin: 0 1.5rem; /* Align with panel horizontal rhythm. */
+  padding: 0.625rem 0.75rem; /* Internal alert spacing. */
+  border-radius: 0.625rem; /* Soft alert corners. */
+  border: 0.0625rem solid var(--danger-line); /* Error border. */
+  background: var(--danger-bg); /* Error background. */
+  color: #5a1414; /* High-contrast error text. */
+  font-size: 0.875rem; /* Scalable error text. */
+  flex: 0 0 auto; /* Keep out of panel scroll containers. */
+}
 
-.dash-main { /* Main two-column workspace containing preview and result panels. */
-  flex: 1 1 auto; /* Consume remaining vertical space between toolbar and footer. */
-  min-height: 0; /* Allow child scroll containers to size correctly in flex context. */
-  display: grid; /* Grid layout for asymmetric panel widths. */
-  grid-template-columns: 1.25fr 1fr; /* Larger left preview panel and narrower right output panel. */
-  gap: 14px; /* Space between panel cards. */
-  padding: 14px 24px; /* Align panel edges with header/toolbar rhythm. */
-  overflow: hidden; /* Prevent outer scroll; internal panel-scroll handles overflow. */
-} /* End main content layout. */
+.dash-main { /* Two-panel dashboard content zone. */
+  flex: 1 1 auto; /* Fill remaining vertical height. */
+  min-height: 0; /* Allow children to scroll. */
+  display: grid; /* Two-column panel layout. */
+  grid-template-columns: 1.25fr 1fr; /* Original Notes larger than AI Textbook on desktop. */
+  gap: 0.875rem; /* Panel gap. */
+  padding: 0.875rem 1.5rem; /* Content spacing. */
+  overflow: hidden; /* Keep outer dashboard static; inner panels handle scroll. */
+}
 
-.panel { /* Shared card container style for both columns. */
-  display: flex; /* Stack panel header and content vertically. */
-  flex-direction: column; /* Vertical panel structure. */
-  min-height: 0; /* Enable nested scrolling inside panel content area. */
-  border-radius: 16px; /* Rounded glass panel corners. */
-  border: 1px solid var(--line); /* Lavender border line for panel frame. */
-  background: var(--glass-strong); /* White glass fill with subtle tint. */
-  backdrop-filter: blur(15px); /* Frosted effect on panel surfaces. */
-  -webkit-backdrop-filter: blur(15px); /* Safari compatibility for blur effect. */
-  box-shadow: 0 8px 26px rgba(123, 76, 185, 0.12); /* Soft purple drop shadow. */
-  overflow: hidden; /* Keep panel internals clipped to rounded boundaries. */
-} /* End panel base style. */
+.panel { /* Shared panel card style. */
+  display: flex; /* Vertical panel layout. */
+  flex-direction: column; /* Header + content stacking. */
+  min-height: 0; /* Enable nested scrolling behavior. */
+  border-radius: 1rem; /* Rounded panel corners. */
+  border: 0.0625rem solid var(--line); /* Lavender panel border. */
+  background: var(--glass-strong); /* White glass panel fill. */
+  backdrop-filter: blur(0.9375rem); /* Frosted effect. */
+  -webkit-backdrop-filter: blur(0.9375rem); /* Safari support. */
+  box-shadow: 0 0.5rem 1.625rem rgba(123, 76, 185, 0.12); /* Soft panel depth shadow. */
+  overflow: hidden; /* Keep panel structure tidy with rounded corners. */
+}
 
-.panel-head { /* Static header area for left panel title. */
-  flex: 0 0 auto; /* Keep title bar fixed, not scrollable. */
-  padding: 20px 24px 14px; /* 24px internal horizontal spacing per layout requirement. */
-  border-bottom: 1px solid rgba(220, 208, 255, 0.95); /* Divider line between header and content. */
-} /* End panel head style. */
+.panel-head { /* Left panel static title area. */
+  flex: 0 0 auto; /* Prevent header from scrolling. */
+  padding: 1.25rem 1.5rem 0.875rem; /* 24px side padding requirement. */
+  border-bottom: 0.0625rem solid rgba(220, 208, 255, 0.95); /* Header separator. */
+}
 
-.panel-title { /* Shared uppercase panel title label style. */
-  font-size: 0.74rem; /* Small overline-like title size. */
-  letter-spacing: 0.1em; /* Increase tracking for clean dashboard metadata look. */
-  text-transform: uppercase; /* Uppercase styling for panel headings. */
-  font-weight: 700; /* Strong weight for visual hierarchy. */
-  color: #5e45aa; /* Purple title color aligned with brand accent family. */
-  text-align: left; /* Explicit left alignment to satisfy layout requirement. */
-} /* End panel title style. */
+.panel-title { /* Shared panel heading style. */
+  margin: 0; /* Remove default spacing. */
+  text-align: left; /* Keep headings clean and left-aligned. */
+  text-transform: uppercase; /* Dashboard micro-headline style. */
+  letter-spacing: 0.08em; /* Spaced heading text. */
+  font-size: 0.875rem; /* Scalable title size. */
+  font-weight: 700; /* Heading emphasis. */
+  color: #4a2f8d; /* High-contrast purple heading color. */
+}
 
-.panel-scroll { /* Scrollable content region inside each panel. */
-  flex: 1 1 auto; /* Expand to fill remaining panel height. */
-  min-height: 0; /* Ensure overflow calculations work in flex column. */
-  overflow-y: auto; /* Internal vertical scrolling for large image/text/markdown content. */
-  padding: 18px 24px 24px; /* 24px horizontal padding so content avoids touching panel borders. */
-} /* End panel scroll container style. */
+.panel-scroll { /* Internal content scroll container. */
+  flex: 1 1 auto; /* Use remaining panel height. */
+  min-height: 0; /* Required for overflow in flex context. */
+  overflow-y: auto; /* Panel-level scrolling on desktop/tablet. */
+  padding: 1.125rem 1.5rem 1.5rem; /* 24px side padding to avoid edge touching. */
+}
 
-.preview-scroll { /* Additional layout behavior for left panel content. */
-  display: flex; /* Center placeholder/image container. */
-  align-items: flex-start; /* Start content at top for natural reading/scrolling. */
-  justify-content: center; /* Center media horizontally when narrower than panel. */
-} /* End preview scroll style. */
+.preview-scroll { /* Left panel specific alignment. */
+  display: flex; /* Center content column. */
+  align-items: flex-start; /* Start at top for long previews. */
+  justify-content: center; /* Center media horizontally. */
+}
 
-.preview-image { /* Uploaded image preview element. */
-  max-width: 100%; /* Prevent image overflow outside panel width. */
-  height: auto; /* Preserve natural image aspect ratio. */
-  border-radius: 10px; /* Soften corners to match glass panel style. */
-} /* End preview image style. */
+.preview-image { /* Uploaded image preview. */
+  max-width: 100%; /* Keep image inside panel bounds. */
+  height: auto; /* Preserve aspect ratio. */
+  border-radius: 0.625rem; /* Rounded image corners. */
+}
 
-.result-actions { /* Sticky title/download bar in right panel. */
-  position: sticky; /* Keep actions visible while markdown content scrolls. */
-  top: 0; /* Pin sticky bar to top edge of panel content area. */
-  z-index: 3; /* Keep bar above scrolling markdown content. */
-  display: flex; /* Layout title and button group in one row. */
-  justify-content: space-between; /* Push title left and actions right. */
-  align-items: center; /* Vertical centering of controls. */
-  gap: 10px; /* Space between title and action cluster. */
-  padding: 20px 24px 14px; /* 24px horizontal padding matching panel requirements. */
-  border-bottom: 1px solid rgba(220, 208, 255, 0.95); /* Divider under sticky action row. */
-  background: rgba(255, 255, 255, 0.86); /* Slightly stronger background for sticky readability. */
-  backdrop-filter: blur(8px); /* Frosted effect while content moves beneath. */
-} /* End result action bar style. */
+.result-actions { /* Right panel sticky title/action row. */
+  position: sticky; /* Keep heading/actions visible while result scrolls. */
+  top: 0; /* Stick to panel top. */
+  z-index: 3; /* Keep above markdown content. */
+  display: flex; /* Title + actions row. */
+  align-items: center; /* Vertical alignment. */
+  justify-content: space-between; /* Title left, actions right. */
+  gap: 0.625rem; /* Row spacing. */
+  padding: 1.25rem 1.5rem 0.875rem; /* 24px side padding consistency. */
+  border-bottom: 0.0625rem solid rgba(220, 208, 255, 0.95); /* Sticky row separator. */
+  background: rgba(255, 255, 255, 0.9); /* Stronger background for sticky readability. */
+  backdrop-filter: blur(0.5rem); /* Light frosted effect. */
+}
 
-.download-actions { /* Wrapper for export buttons. */
-  display: flex; /* Keep export buttons in one horizontal row when possible. */
-  gap: 8px; /* Space between download actions. */
-  flex-wrap: wrap; /* Allow wrapping on narrower widths. */
-} /* End download action group style. */
+.download-actions { /* Inline desktop result actions. */
+  display: flex; /* Horizontal button layout. */
+  gap: 0.5rem; /* Action spacing. */
+  flex-wrap: wrap; /* Wrap on narrow desktop widths. */
+}
 
-.download-btn { /* Shared style for download anchors. */
-  border-radius: 999px; /* Pill-shaped action chips. */
-  padding: 7px 14px; /* Compact button spacing. */
-  font-size: 0.8rem; /* Small dashboard action typography. */
-  font-weight: 700; /* Emphasize action labels. */
-  color: #fff; /* White text on purple fills. */
-  text-decoration: none; /* Remove default link underline. */
-  transition: transform 0.15s ease, opacity 0.15s ease; /* Subtle hover animation. */
-} /* End download button base style. */
+.download-btn { /* Shared download button/link style. */
+  display: inline-flex; /* Ensure icon/text can center reliably. */
+  align-items: center; /* Vertical centering. */
+  justify-content: center; /* Horizontal centering. */
+  min-height: 2.75rem; /* 44px minimum touch target. */
+  min-width: 2.75rem; /* 44px minimum touch target. */
+  padding: 0.5rem 0.875rem; /* Action spacing. */
+  border-radius: 999rem; /* Pill style. */
+  text-decoration: none; /* Link style cleanup. */
+  font-size: 0.875rem; /* Scalable action label. */
+  font-weight: 700; /* Action emphasis. */
+  color: #ffffff; /* Contrast-safe text color. */
+  transition: transform 0.15s ease, opacity 0.15s ease; /* Subtle hover motion. */
+}
 
-.download-btn:hover { /* Hover interaction for export actions. */
-  transform: translateY(-1px); /* Slight hover lift feedback. */
-  opacity: 0.92; /* Mild fade effect for interactivity. */
-} /* End download hover style. */
+.download-btn:hover { /* Download hover effect. */
+  transform: translateY(-0.0625rem); /* Lift effect. */
+  opacity: 0.94; /* Slight fade for interaction feedback. */
+}
 
-.download-pdf { /* PDF button specific appearance. */
-  background: #7c3aed; /* Primary purple for PDF action. */
-} /* End PDF button style. */
+.download-pdf { /* PDF action color. */
+  background: #7c3aed; /* Purple button for PDF download. */
+}
 
-.download-docx { /* DOCX button specific appearance. */
-  background: #6d28d9; /* Slightly deeper purple to distinguish from PDF button. */
-} /* End DOCX button style. */
+.download-docx { /* DOCX action color. */
+  background: #6d28d9; /* Darker purple for DOCX download. */
+}
 
-.notepad-box { /* Container used for .txt preview in left panel. */
-  width: 100%; /* Fill available panel content width. */
-  border-radius: 10px; /* Rounded corners to match panel style. */
-  border: 1px solid #dcd0ff; /* Lavender border for notebook visual framing. */
-  background: rgba(255, 255, 255, 0.75); /* Semi-transparent light background for readability. */
-  overflow: hidden; /* Clip header/body within rounded corners. */
-} /* End notepad container style. */
+.notepad-box { /* Text-upload preview container. */
+  width: 100%; /* Fill content width. */
+  border-radius: 0.625rem; /* Rounded edges. */
+  border: 0.0625rem solid #dcd0ff; /* Lavender border. */
+  background: rgba(255, 255, 255, 0.75); /* Light card surface. */
+  overflow: hidden; /* Clip content to rounded corners. */
+}
 
-.notepad-head { /* Header strip for text preview block. */
-  padding: 8px 10px; /* Compact top strip spacing. */
-  border-bottom: 1px solid #e3d8ff; /* Subtle separator to divide header and content. */
-  text-transform: uppercase; /* UI microcopy style for notepad label. */
-  letter-spacing: 0.06em; /* Increase readability in small uppercase text. */
-  font-size: 0.68rem; /* Small utility label size. */
-  font-weight: 700; /* Ensure small text remains legible. */
-  color: #6849bb; /* Purple tone tying subcomponent to overall brand. */
-} /* End notepad header style. */
+.notepad-head { /* Text preview top strip. */
+  padding: 0.5rem 0.625rem; /* Header strip spacing. */
+  border-bottom: 0.0625rem solid #e3d8ff; /* Header divider. */
+  text-transform: uppercase; /* Utility label style. */
+  letter-spacing: 0.06em; /* Uppercase readability. */
+  font-size: 0.75rem; /* Small but scalable heading size. */
+  font-weight: 700; /* Label emphasis. */
+  color: #6849bb; /* Lavender heading tone. */
+}
 
-.notepad-box pre { /* Monospace transcript content style. */
-  margin: 0; /* Remove browser default pre margins. */
-  padding: 12px; /* Internal text breathing space. */
-  white-space: pre-wrap; /* Preserve new lines while allowing wrapping. */
-  word-break: break-word; /* Prevent long tokens from breaking layout. */
-  font-family: "Cascadia Code", "Consolas", "Courier New", monospace; /* Notepad-like monospaced feel. */
-  font-size: 0.82rem; /* Comfortable reading size for transcript text. */
-  line-height: 1.5; /* Improve readability of dense notes text. */
-  color: #3f3563; /* Dark lavender text color for contrast. */
-} /* End notepad text style. */
+.notepad-box pre { /* Monospaced transcript text block. */
+  margin: 0; /* Remove pre defaults. */
+  padding: 0.75rem; /* Internal text spacing. */
+  white-space: pre-wrap; /* Preserve line breaks with wrapping. */
+  word-break: break-word; /* Prevent long tokens from overflow. */
+  font-family: "Cascadia Code", "Consolas", "Courier New", monospace; /* Notepad-like typography. */
+  font-size: 0.875rem; /* Scalable transcript text size. */
+  line-height: 1.5; /* Readability for long notes. */
+  color: #3f3563; /* Accessible transcript color. */
+}
 
-.panel-placeholder { /* Shared empty-state container style. */
-  min-height: 180px; /* Reserve meaningful area before content exists. */
-  width: 100%; /* Fill panel width to center placeholder content. */
-  display: flex; /* Stack placeholder icon and text vertically. */
-  flex-direction: column; /* Vertical layout for icon + message. */
-  align-items: center; /* Center placeholder horizontally. */
-  justify-content: center; /* Center placeholder vertically in available area. */
-  gap: 8px; /* Space between icon and helper text. */
-  text-align: center; /* Center text alignment for empty-state messaging. */
-  color: #7f72aa; /* Muted purple placeholder text color. */
-} /* End placeholder style. */
+.panel-placeholder { /* Empty-state placeholder container. */
+  min-height: 11.25rem; /* Keep placeholder visible and balanced. */
+  width: 100%; /* Use full panel width. */
+  display: flex; /* Vertical alignment layout. */
+  flex-direction: column; /* Stack icon and text. */
+  align-items: center; /* Horizontal centering. */
+  justify-content: center; /* Vertical centering. */
+  gap: 0.5rem; /* Spacing between icon and text. */
+  text-align: center; /* Center helper text. */
+  color: #6b5a99; /* Accessible muted placeholder color. */
+}
 
-.md-prose { /* Root markdown container style for generated AI textbook. */
-  color: #2f2552; /* Default markdown text color. */
-} /* End markdown root style. */
+.md-prose { /* Generated markdown root styles. */
+  color: #2f2552; /* Body text color with high contrast. */
+}
 
-.md-prose h1 { /* Markdown H1 style. */
-  margin: 0 0 10px; /* Controlled spacing below heading. */
-  font-size: 1.4rem; /* Prominent title size. */
-  color: #412a7a; /* Strong purple heading tone. */
-} /* End H1 style. */
+.md-prose h1 { /* Markdown H1. */
+  margin: 0 0 0.625rem; /* Heading rhythm. */
+  font-size: 1.4rem; /* Section title scale. */
+  color: #412a7a; /* Deep purple heading color. */
+}
 
-.md-prose h2 { /* Markdown H2 style. */
-  margin: 18px 0 8px; /* Vertical rhythm between sections. */
-  font-size: 1.08rem; /* Section heading size. */
-  color: #5d41ad; /* Secondary heading purple. */
-  border-bottom: 1px solid #e3d8ff; /* Divider for textbook-style sections. */
-  padding-bottom: 6px; /* Space between text and divider. */
-} /* End H2 style. */
+.md-prose h2 { /* Markdown H2. */
+  margin: 1.125rem 0 0.5rem; /* Section spacing. */
+  font-size: 1.08rem; /* Subheading scale. */
+  color: #5d41ad; /* Secondary heading color. */
+  border-bottom: 0.0625rem solid #e3d8ff; /* Divider for section clarity. */
+  padding-bottom: 0.375rem; /* Heading-divider spacing. */
+}
 
 .md-prose p,
-.md-prose li { /* Paragraph and list item typography. */
-  line-height: 1.65; /* Comfortable reading line spacing for long-form output. */
-  color: #433a66; /* Softer body text color than headings. */
-} /* End paragraph/list style. */
+.md-prose li { /* Paragraph/list text. */
+  line-height: 1.65; /* Comfortable reading rhythm. */
+  color: #433a66; /* Accessible body text color. */
+}
 
-.md-prose code { /* Inline code token style inside markdown output. */
-  background: rgba(124, 58, 237, 0.12); /* Light purple code highlight background. */
-  border-radius: 5px; /* Rounded code chip corners. */
-  padding: 1px 5px; /* Small code token inner spacing. */
-} /* End inline code style. */
+.md-prose code { /* Inline code style in generated markdown. */
+  background: rgba(124, 58, 237, 0.12); /* Lavender code highlight. */
+  border-radius: 0.3125rem; /* Rounded code chip corners. */
+  padding: 0.0625rem 0.3125rem; /* Compact code chip spacing. */
+}
 
-.result-enter { /* Result appearance animation class. */
-  animation: resultSlideFade 0.45s ease both; /* Fade + upward slide transition on successful generation. */
-} /* End result animation binding. */
+.result-enter { /* Fade/slide animation class for result appearance. */
+  animation: resultSlideFade 0.45s ease both; /* Transition effect when AI output appears. */
+}
 
-.dash-footer { /* Bottom status bar for download readiness messaging. */
-  flex: 0 0 auto; /* Keep footer fixed outside scroll areas. */
-  min-height: 34px; /* Stable compact footer height. */
-  padding: 8px 24px 12px; /* Align footer text with panel/header horizontal rhythm. */
-  border-top: 1px solid var(--line); /* Divider line above footer. */
-  font-size: 0.82rem; /* Small metadata text size. */
-  color: #71659c; /* Muted purple footer text color. */
-} /* End footer style. */
+.dash-footer { /* Footer status area. */
+  flex: 0 0 auto; /* Keep footer fixed below scrollable content region. */
+  min-height: 2.125rem; /* Consistent footer height. */
+  padding: 0.5rem 1.5rem 0.75rem; /* Footer spacing aligned with panel rhythm. */
+  border-top: 0.0625rem solid var(--line); /* Footer separator line. */
+  font-size: 0.875rem; /* Scalable status text. */
+  color: #62558d; /* Accessible muted footer text. */
+}
 
-@keyframes twinkleGlow { /* Animation controlling sparkle logo breathing effect. */
+.mobile-download-dock { /* Mobile fixed download action dock (hidden on desktop by default). */
+  display: none; /* Only visible under mobile media query. */
+}
+
+@keyframes twinkleGlow { /* Brand logo breathing glow animation. */
   0%,
-  100% { /* Initial/final animation states. */
-    transform: scale(1); /* Base logo size. */
-    filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.25)); /* Soft glow baseline. */
-    opacity: 0.95; /* Slight transparency for subtle effect. */
+  100% {
+    transform: scale(1); /* Resting logo scale. */
+    filter: drop-shadow(0 0 0.375rem rgba(124, 58, 237, 0.25)); /* Base glow. */
+    opacity: 0.95; /* Slight transparency baseline. */
   }
-  50% { /* Mid-cycle highlight state. */
-    transform: scale(1.08); /* Slightly enlarge logo for breathing pulse. */
-    filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.5)); /* Stronger glow at pulse peak. */
-    opacity: 1; /* Full opacity at brightest point. */
+  50% {
+    transform: scale(1.08); /* Peak pulse size. */
+    filter: drop-shadow(0 0 0.75rem rgba(124, 58, 237, 0.5)); /* Stronger glow at midpoint. */
+    opacity: 1; /* Full opacity at glow peak. */
   }
-} /* End logo animation keyframes. */
+}
 
-@keyframes resultSlideFade { /* Animation for generated result entrance. */
-  from { /* Start state for animated entry. */
-    opacity: 0; /* Begin fully transparent. */
-    transform: translateY(10px); /* Begin slightly lower than final position. */
+@keyframes resultSlideFade { /* AI result entry animation. */
+  from {
+    opacity: 0; /* Start transparent. */
+    transform: translateY(0.625rem); /* Start slightly lower. */
   }
-  to { /* End state for animated entry. */
-    opacity: 1; /* Finish fully visible. */
-    transform: translateY(0); /* Finish at natural position. */
+  to {
+    opacity: 1; /* End fully visible. */
+    transform: translateY(0); /* End at resting position. */
   }
-} /* End result animation keyframes. */
+}
 
-@media (max-width: 1050px) { /* Responsive breakpoint for tablet/smaller laptops. */
-  .dashboard-glass { /* Main card at narrow viewport. */
-    height: 100vh; /* Fill full height when shell padding is removed. */
-    border-radius: 0; /* Remove corners for edge-to-edge mobile feel. */
-  }
-
-  .app-shell { /* Outer wrapper on smaller screens. */
-    padding: 0; /* Remove shell margin to maximize usable space. */
+@media (max-width: 768px) { /* Phone-specific responsive and accessibility behaviors. */
+  html,
+  body,
+  #root { /* Remove desktop viewport lock on mobile. */
+    height: auto; /* Let document grow naturally with content. */
+    overflow: auto; /* Enable natural page scrolling. */
   }
 
-  .dash-main { /* Content area on smaller screens. */
-    grid-template-columns: 1fr; /* Stack preview/result panels vertically. */
+  body { /* Mobile body adjustments. */
+    padding-bottom: 5.5rem; /* Reserve space for fixed bottom download dock. */
   }
 
-  .dash-toolbar { /* Toolbar layout on smaller screens. */
-    grid-template-columns: 1fr; /* Stack controls into one column for readability. */
+  .app-shell { /* Mobile app wrapper behavior. */
+    height: auto; /* Remove fixed 100vh shell restriction. */
+    overflow: visible; /* Allow full document flow. */
+    padding: 1rem; /* Safe side spacing to prevent edge collisions. */
   }
 
-  .dash-header { /* Header layout on smaller screens. */
-    flex-direction: column; /* Stack brand and status pill vertically. */
-    align-items: flex-start; /* Align stacked header items to left edge. */
+  .dashboard-glass { /* Mobile dashboard frame. */
+    height: auto; /* Remove fixed dashboard height on mobile. */
+    min-height: auto; /* Prevent implicit min-height lock. */
+    border-radius: 1rem; /* Keep polished corners on mobile. */
+    overflow: visible; /* Allow content expansion and natural page scroll. */
   }
 
-  .selected-file { /* Selected file badge in narrow layouts. */
-    max-width: 100%; /* Allow full width so filename is not over-truncated. */
+  .dash-header { /* Mobile header layout. */
+    flex-direction: column; /* Stack title and metadata for narrow width. */
+    align-items: flex-start; /* Keep content left aligned. */
+    padding: 1rem; /* Add breathing room from viewport edges. */
   }
-} /* End responsive rules. */
+
+  .dash-toolbar { /* Mobile toolbar stack. */
+    grid-template-columns: 1fr; /* Vertical controls for thumb reach. */
+    padding: 1rem; /* Add comfortable side margins. */
+    gap: 0.875rem; /* Increase spacing between stacked controls. */
+  }
+
+  .selected-file { /* Mobile filename chip. */
+    max-width: 100%; /* Prevent clipping in narrow screens. */
+  }
+
+  .convert-btn { /* Mobile Process button. */
+    width: 100%; /* Full-width CTA for easy tapping. */
+    min-height: 3rem; /* >=48px target for mobile usability. */
+    font-size: 1rem; /* Larger readable text size on phone screens. */
+  }
+
+  .dash-main { /* Mobile panel order and spacing. */
+    grid-template-columns: 1fr; /* Stack panels vertically: Original Notes then AI Textbook. */
+    gap: 1rem; /* Vertical spacing between stacked cards. */
+    padding: 1rem; /* Keep cards away from screen edges. */
+    overflow: visible; /* Remove desktop clipping behavior. */
+  }
+
+  .panel-head,
+  .result-actions,
+  .panel-scroll { /* Mobile panel internal spacing normalization. */
+    padding-left: 1rem; /* Left side inset. */
+    padding-right: 1rem; /* Right side inset. */
+  }
+
+  .panel-scroll { /* Mobile content flow preference. */
+    overflow-y: visible; /* Disable nested panel scrolling on mobile. */
+  }
+
+  .result-actions { /* Mobile result header behavior. */
+    position: static; /* Remove sticky top behavior in favor of fixed bottom dock. */
+  }
+
+  .result-actions .download-actions { /* Desktop inline downloads on mobile. */
+    display: none; /* Hide inline buttons to reduce duplication with bottom dock. */
+  }
+
+  .mobile-download-dock { /* Mobile fixed export actions. */
+    position: fixed; /* Keep dock visible while user scrolls through results. */
+    left: 0.75rem; /* Safe horizontal inset from viewport edge. */
+    right: 0.75rem; /* Safe horizontal inset from viewport edge. */
+    bottom: 0.75rem; /* Bottom offset for better gesture/home-bar compatibility. */
+    z-index: 20; /* Keep above content cards. */
+    display: flex; /* Show action buttons in one row. */
+    justify-content: center; /* Center actions. */
+    gap: 0.625rem; /* Space between action buttons. */
+    padding: 0.625rem; /* Dock interior spacing. */
+    border-radius: 0.875rem; /* Rounded dock shell. */
+    border: 0.0625rem solid var(--line); /* Lavender border for dock. */
+    background: rgba(255, 255, 255, 0.94); /* High legibility surface. */
+    box-shadow: 0 0.5rem 1.25rem rgba(80, 54, 150, 0.2); /* Floating elevation shadow. */
+    backdrop-filter: blur(0.625rem); /* Preserve glass style in fixed element. */
+  }
+}
