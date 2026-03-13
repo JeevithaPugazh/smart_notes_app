@@ -85,14 +85,6 @@ The project uses a **Zero-Shot Multimodal Inference** approach:
 
 ---
 
-## ✅ Open-Source Migration Status
-
-* Removed `google-generativeai` / Gemini usage from the backend pipeline.
-* Replaced old Gemini functions with LangChain + `ChatGroq` image-to-markdown flow.
-* Export routes (`/export/pdf`, `/export/docx`) now run through the same open-source AI flow.
-
----
-
 ## 📸 App Preview
 
 ![Smart Notes Demo](images/demo_screenshot.png)
